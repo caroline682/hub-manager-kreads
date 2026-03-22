@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil Collaborateur — Kreads</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #F7F6F3; --surface: #FFFFFF;
+  --border: #E8E6E1; --border-strong: #C8C4BC;
+  --text-primary: #1A1916; --text-secondary: #6B6860; --text-hint: #AAA69E;
+  --blue: #2B6CB0; --blue-bg: #EBF4FF; --blue-border: #90CDF4;
+  --red: #C53030; --red-bg: #FFF5F5; --red-border: #FEB2B2;
+  --green: #276749; --green-bg: #F0FFF4; --green-border: #9AE6B4;
+  --yellow: #975A16; --yellow-bg: #FFFFF0; --yellow-border: #ECC94B;
+  --radius: 12px; --radius-sm: 7px;
+}
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 32px 24px 60px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.kreads-tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--text-hint);
+  text-transform: uppercase;
+  background: var(--border);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+h1 { font-size: 21px; font-weight: 600; line-height: 1.25; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+.name-input {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 13px;
+  outline: none;
+  margin-bottom: 12px;
+  transition: border-color 0.15s;
+}
+.name-input:focus { border-color: #94A3B8; }
+.name-input::placeholder { color: var(--text-hint); font-weight: 400; }
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 10px;
+}
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-hint);
+  margin-bottom: 16px;
+}
+.axis-title { font-size: 13px; font-weight: 500; margin-bottom: 10px; }
+.axis-ends { display: flex; justify-content: space-between; margin-bottom: 5px; }
+.axis-end { font-size: 11px; color: var(--text-hint); font-family: 'DM Mono', monospace; }
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%; height: 3px;
+  border-radius: 2px;
+  background: var(--border);
+  outline: none;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1.5px var(--border-strong);
+  cursor: pointer;
+}
+.axis-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  border-left: 2.5px solid var(--border-strong);
+  margin-bottom: 12px;
+}
+.adapt-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-hint);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 5px;
+}
+textarea {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 11px;
+  resize: vertical;
+  min-height: 52px;
+  outline: none;
+  line-height: 1.5;
+  transition: border-color 0.15s;
+}
+textarea:focus { border-color: var(--border-strong); }
+textarea::placeholder { color: var(--text-hint); }
+.insights-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.insights-sub {
+  font-size: 10px; font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.color-btn {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 6px 8px;
+  cursor: pointer;
+  background: var(--surface);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 5px;
+  transition: all 0.12s;
+  font-family: 'DM Sans', sans-serif;
+}
+.color-btn:hover { border-color: var(--border-strong); }
+.color-dot { width: 20px; height: 20px; border-radius: 50%; }
+.color-btn span { font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+.dot-bleu { background: #3182CE; }
+.dot-rouge { background: #E53E3E; }
+.dot-vert { background: #38A169; }
+.dot-jaune { background: #D69E2E; }
+.btn-bleu.active { border-color: var(--blue); background: var(--blue-bg); }
+.btn-bleu.active span { color: var(--blue); }
+.btn-rouge.active { border-color: var(--red); background: var(--red-bg); }
+.btn-rouge.active span { color: var(--red); }
+.btn-vert.active { border-color: var(--green); background: var(--green-bg); }
+.btn-vert.active span { color: var(--green); }
+.btn-jaune.active { border-color: var(--yellow); background: var(--yellow-bg); }
+.btn-jaune.active span { color: var(--yellow); }
+.mgmt-hint {
+  margin-top: 14px;
+  padding: 11px 13px;
+  border-radius: var(--radius-sm);
+  border-left: 2.5px solid var(--border-strong);
+  background: var(--bg);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  display: none;
+}
+.mgmt-hint.visible { display: block; }
+.mgmt-hint strong {
+  display: block;
+  font-size: 10px; font-weight: 500;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+.comms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.comms-box { border-radius: var(--radius-sm); padding: 11px 12px; }
+.comms-ok { background: var(--green-bg); border: 1px solid var(--green-border); }
+.comms-nok { background: var(--red-bg); border: 1px solid var(--red-border); }
+.comms-tag { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.comms-ok .comms-tag { color: var(--green); }
+.comms-nok .comms-tag { color: var(--red); }
+.tag-textarea {
+  width: 100%; font-family: 'DM Sans', sans-serif;
+  font-size: 12px; color: var(--text-primary);
+  background: transparent; border: none;
+  resize: none; min-height: 52px; outline: none; line-height: 1.55;
+}
+.tag-textarea::placeholder { color: var(--text-hint); }
+.footer {
+  margin-top: 28px; text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--text-hint); letter-spacing: 0.08em;
+}
+</style>
+</head>
+<body>
+
+<span class="kreads-tag">Hub Manager · Kreads</span>
+<h1>Profil collaborateur</h1>
+<p class="subtitle">À remplir lors du premier 1:1 approfondi. Revoir si changement notable.</p>
+
+<input class="name-input" type="text" placeholder="Prénom du collaborateur…">
+
+<!-- 01 ÉNERGIE -->
+<div class="section">
+  <p class="section-label">01 — Énergie · Introversion / Extraversion</p>
+  <p class="axis-title">Où se ressource-t-il ?</p>
+  <div class="axis-ends">
+    <span class="axis-end">Introverti</span>
+    <span class="axis-end">Extraverti</span>
+  </div>
+  <input type="range" min="1" max="10" value="5" id="ie-slider" oninput="updateAxis('ie')">
+  <div class="axis-desc" id="ie-desc">Positionnez le curseur pour voir les implications.</div>
+  <span class="adapt-label">Ce que j'adapte concrètement</span>
+  <textarea placeholder="Ex : lui envoyer l'ordre du jour avant les réunions, laisser du silence sans le combler…"></textarea>
+</div>
+
+<!-- 02 DÉCISION -->
+<div class="section">
+  <p class="section-label">02 — Décision · Thinking / Feeling</p>
+  <p class="axis-title">Comment prend-il ses décisions ?</p>
+  <div class="axis-ends">
+    <span class="axis-end">Thinking</span>
+    <span class="axis-end">Feeling</span>
+  </div>
+  <input type="range" min="1" max="10" value="5" id="tf-slider" oninput="updateAxis('tf')">
+  <div class="axis-desc" id="tf-desc">Positionnez le curseur pour voir les implications.</div>
+  <span class="adapt-label">Ce que j'adapte concrètement</span>
+  <textarea placeholder="Ex : commencer par reconnaître la personne avant d'attaquer le sujet du feedback…"></textarea>
+</div>
+
+<!-- 03 INSIGHTS -->
+<div class="section">
+  <p class="section-label">03 — Couleur Insights Discovery</p>
+  <div class="insights-cols">
+    <div>
+      <p class="insights-sub">Dominante</p>
+      <div class="color-grid">
+        <button class="color-btn btn-bleu" id="d-bleu" onclick="setColor('dom','bleu')"><div class="color-dot dot-bleu"></div><span>Bleu</span></button>
+        <button class="color-btn btn-rouge" id="d-rouge" onclick="setColor('dom','rouge')"><div class="color-dot dot-rouge"></div><span>Rouge</span></button>
+        <button class="color-btn btn-vert" id="d-vert" onclick="setColor('dom','vert')"><div class="color-dot dot-vert"></div><span>Vert</span></button>
+        <button class="color-btn btn-jaune" id="d-jaune" onclick="setColor('dom','jaune')"><div class="color-dot dot-jaune"></div><span>Jaune</span></button>
+      </div>
+    </div>
+    <div>
+      <p class="insights-sub">Secondaire</p>
+      <div class="color-grid">
+        <button class="color-btn btn-bleu" id="s-bleu" onclick="setColor('sec','bleu')"><div class="color-dot dot-bleu"></div><span>Bleu</span></button>
+        <button class="color-btn btn-rouge" id="s-rouge" onclick="setColor('sec','rouge')"><div class="color-dot dot-rouge"></div><span>Rouge</span></button>
+        <button class="color-btn btn-vert" id="s-vert" onclick="setColor('sec','vert')"><div class="color-dot dot-vert"></div><span>Vert</span></button>
+        <button class="color-btn btn-jaune" id="s-jaune" onclick="setColor('sec','jaune')"><div class="color-dot dot-jaune"></div><span>Jaune</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="mgmt-hint" id="mgmt-hint">
+    <strong>Ce que ça change dans mon management</strong>
+    <span id="mgmt-text"></span>
+  </div>
+</div>
+
+<!-- 04 COMMUNICATION -->
+<div class="section">
+  <p class="section-label">04 — Règles de communication</p>
+  <div class="comms-grid">
+    <div class="comms-box comms-ok">
+      <p class="comms-tag">Ce qui fonctionne</p>
+      <textarea class="tag-textarea" placeholder="Ex : feedback direct, données concrètes, challenge des idées…"></textarea>
+    </div>
+    <div class="comms-box comms-nok">
+      <p class="comms-tag">Ce qu'il faut éviter</p>
+      <textarea class="tag-textarea" placeholder="Ex : feedback en public, flou sur les attentes, changements improvisés…"></textarea>
+    </div>
+  </div>
+</div>
+
+<p class="footer">Kreads × Roads — Hub Manager</p>
+
+<script>
+const ieTexts = {
+  1: "Très introverti — Envoie les sujets à l'avance, laisse du silence, propose de répondre par écrit plutôt qu'en réunion.",
+  2: "Très introverti — Privilégie les échanges en one-to-one, évite de le mettre sur le spot sans préparation.",
+  3: "Plutôt introverti — Respecte ses temps de traitement, ne comble pas les silences.",
+  4: "Légèrement introverti — Envoyer les sujets clés avant un échange important suffit à le mettre à l'aise.",
+  5: "Équilibré — S'adapte selon le contexte. Observe comment il se comporte selon la situation.",
+  6: "Légèrement extraverti — Aime verbaliser pour structurer. Laisse-lui de l'espace pour penser à voix haute.",
+  7: "Plutôt extraverti — Se ressource dans l'interaction. Profite des échanges informels pour prendre le pouls.",
+  8: "Extraverti — Lui donner du temps de parole est productif, pas du temps perdu. Besoin de contact régulier.",
+  9: "Très extraverti — Interactions fréquentes indispensables. Le silence prolongé peut être perçu négativement.",
+  10: "Très extraverti — Pense en parlant. La verbalisation structure ses idées — lui couper la parole bloque sa réflexion."
+};
+const tfTexts = {
+  1: "Très Thinking — Va droit au but, sois factuel. Il te respecte davantage si tu challenges ses idées que si tu les valides.",
+  2: "Très Thinking — Données solides et cohérence logique avant tout. Pas besoin de préambule relationnel.",
+  3: "Plutôt Thinking — Direct et structuré. Confort dans la confrontation directe — ne le prends pas pour de l'agressivité.",
+  4: "Légèrement Thinking — Quelques faits bien choisis suffisent. Apprécie qu'on aille à l'essentiel.",
+  5: "Équilibré — Sensible aux faits ET à la relation. Observe ce qui prime selon la situation.",
+  6: "Légèrement Feeling — Commence par reconnaître la personne avant d'attaquer le sujet.",
+  7: "Plutôt Feeling — Un feedback juste sera mal reçu s'il est livré sans considération pour la relation.",
+  8: "Feeling — L'inconfort relationnel bloque tout le reste. Pose toujours la relation en premier.",
+  9: "Très Feeling — Très sensible à l'impact émotionnel. Commence toujours par la relation, jamais par le sujet.",
+  10: "Très Feeling — La confiance est le prérequis absolu. Impossible d'avancer sur le fond sans qu'elle soit établie."
+};
+const colorMgmt = {
+  bleu: "Profil Bleu (Thinking + Introverti) — Donne-lui les informations à l'avance et laisse-lui le temps d'analyser. Respecte les process, évite les décisions improvisées. Besoin de données solides et de logique irréfutable.",
+  rouge: "Profil Rouge (Thinking + Extraverti) — Va droit au but et donne-lui des défis avec de la liberté d'action. Besoin de résultats rapides et de reconnaissance. Communique mieux quand on le challenge directement.",
+  vert: "Profil Vert (Feeling + Introverti) — Prends le temps de la relation avant d'aborder le sujet. Explique l'impact sur l'équipe avant tout changement. Stabilité et cohérence sont des besoins fondamentaux.",
+  jaune: "Profil Jaune (Feeling + Extraverti) — Sois enthousiaste et visuel, valorise ses idées. Besoin de créativité, de contact humain et d'ambiance positive. Communique mieux dans un échange énergique et enthousiasmant."
+};
+
+function updateAxis(type) {
+  const val = parseInt(document.getElementById(type + '-slider').value);
+  document.getElementById(type + '-desc').textContent = (type === 'ie' ? ieTexts : tfTexts)[val];
+}
+
+function setColor(type, color) {
+  const prefix = type === 'dom' ? 'd' : 's';
+  ['bleu','rouge','vert','jaune'].forEach(c => {
+    document.getElementById(prefix + '-' + c).className = 'color-btn btn-' + c;
+  });
+  document.getElementById(prefix + '-' + color).className = 'color-btn btn-' + color + ' active';
+  if (type === 'dom') {
+    document.getElementById('mgmt-text').textContent = colorMgmt[color];
+    document.getElementById('mgmt-hint').classList.add('visible');
+  }
+}
+
+updateAxis('ie');
+updateAxis('tf');
+</script>
+</body>
+</html>
