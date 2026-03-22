@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maturité Professionnelle — Kreads</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #F7F6F3; --surface: #FFFFFF;
+  --border: #E8E6E1; --border-strong: #C8C4BC;
+  --text-primary: #1A1916; --text-secondary: #6B6860; --text-hint: #AAA69E;
+  --s1: #E53E3E; --s1-bg: #FFF5F5; --s1-border: #FEB2B2;
+  --s2: #D69E2E; --s2-bg: #FFFFF0; --s2-border: #ECC94B;
+  --s3: #3182CE; --s3-bg: #EBF4FF; --s3-border: #90CDF4;
+  --s4: #38A169; --s4-bg: #F0FFF4; --s4-border: #9AE6B4;
+  --radius: 12px; --radius-sm: 7px;
+}
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 32px 24px 60px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.kreads-tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--text-hint);
+  text-transform: uppercase;
+  background: var(--border);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+h1 { font-size: 21px; font-weight: 600; line-height: 1.25; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+
+/* NIVEAUX */
+.levels-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.level-card {
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  border: 1px solid;
+}
+.level-card.s1 { background: var(--s1-bg); border-color: var(--s1-border); }
+.level-card.s2 { background: var(--s2-bg); border-color: var(--s2-border); }
+.level-card.s3 { background: var(--s3-bg); border-color: var(--s3-border); }
+.level-card.s4 { background: var(--s4-bg); border-color: var(--s4-border); }
+.level-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+}
+.s1 .level-badge { background: var(--s1); color: #fff; }
+.s2 .level-badge { background: var(--s2); color: #fff; }
+.s3 .level-badge { background: var(--s3); color: #fff; }
+.s4 .level-badge { background: var(--s4); color: #fff; }
+.level-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.s1 .level-name { color: var(--s1); }
+.s2 .level-name { color: var(--s2); }
+.s3 .level-name { color: var(--s3); }
+.s4 .level-name { color: var(--s4); }
+.level-desc { font-size: 11.5px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 6px; }
+.level-style {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-hint);
+  font-family: 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 10px;
+}
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-hint);
+  margin-bottom: 14px;
+}
+.section-explainer {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+.section-explainer strong { color: var(--text-primary); font-weight: 500; }
+
+/* COMPÉTENCES */
+.comp-list { display: flex; flex-direction: column; gap: 16px; }
+.comp-row { }
+.comp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.comp-name-input {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--border-strong);
+  outline: none;
+  padding: 2px 4px;
+  width: 200px;
+  transition: border-color 0.15s;
+}
+.comp-name-input:focus { border-bottom-color: var(--text-secondary); }
+.comp-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  color: #fff;
+  transition: background 0.2s;
+}
+.comp-ends { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.comp-end { font-size: 10px; color: var(--text-hint); font-family: 'DM Mono', monospace; }
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%; height: 3px;
+  border-radius: 2px;
+  background: var(--border);
+  outline: none;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1.5px var(--border-strong);
+  cursor: pointer;
+}
+.comp-desc {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border-left: 2.5px solid var(--border-strong);
+  background: var(--bg);
+  transition: border-color 0.2s;
+}
+
+.add-comp-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  background: transparent;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text-hint);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.add-comp-btn:hover { border-color: var(--text-secondary); color: var(--text-secondary); }
+
+/* GRAPHIQUE */
+.chart-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 10px;
+}
+.chart-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-hint);
+  margin-bottom: 16px;
+}
+.chart-bars { display: flex; flex-direction: column; gap: 10px; }
+.chart-row { display: flex; align-items: center; gap: 10px; }
+.chart-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-width: 140px;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chart-bar-wrap {
+  flex: 1;
+  height: 24px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.chart-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease, background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  min-width: 32px;
+}
+.chart-bar span {
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  font-family: 'DM Mono', monospace;
+}
+.chart-s-label {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  min-width: 20px;
+  text-align: right;
+}
+
+.footer {
+  margin-top: 28px; text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--text-hint); letter-spacing: 0.08em;
+}
+</style>
+</head>
+<body>
+
+<span class="kreads-tag">Hub Manager · Kreads</span>
+<h1>Maturité professionnelle</h1>
+<p class="subtitle">Modèle Hersey & Blanchard — évalue le niveau de maturité par compétence et adapte ton style.</p>
+
+<!-- NIVEAUX -->
+<div class="levels-grid">
+  <div class="level-card s1">
+    <span class="level-badge">S1</span>
+    <p class="level-name">Débutant enthousiaste</p>
+    <p class="level-desc">Peu de compétences mais motivation forte. Nouveau sur le sujet, plein de bonne volonté mais pas encore les outils pour réussir seul.</p>
+    <p class="level-style">→ Diriger</p>
+  </div>
+  <div class="level-card s2">
+    <span class="level-badge">S2</span>
+    <p class="level-name">En développement</p>
+    <p class="level-desc">Compétences qui progressent mais confiance qui chute face aux difficultés. Phase de doute classique — c'est normal et temporaire.</p>
+    <p class="level-style">→ Entraîner</p>
+  </div>
+  <div class="level-card s3">
+    <span class="level-badge">S3</span>
+    <p class="level-name">Compétent peu confiant</p>
+    <p class="level-desc">Sait faire mais manque d'assurance pour décider seul. A besoin d'être rassuré et validé plus que guidé techniquement.</p>
+    <p class="level-style">→ Épauler</p>
+  </div>
+  <div class="level-card s4">
+    <span class="level-badge">S4</span>
+    <p class="level-name">Expert autonome</p>
+    <p class="level-desc">Compétent et confiant. Prend des décisions seul et les assume. Peut former les autres. Besoin de liberté, pas de contrôle.</p>
+    <p class="level-style">→ Déléguer</p>
+  </div>
+</div>
+
+<!-- COMPÉTENCES -->
+<div class="section">
+  <p class="section-label">Évaluation par compétence</p>
+  <div class="section-explainer">
+    <strong>Comment utiliser cet outil</strong> — Pour chaque compétence, positionne le curseur sur le niveau actuel du collaborateur. Le niveau est lié à la tâche, pas à la personne : un expert peut être S1 sur une nouvelle responsabilité. Adapte les noms de compétences à ton pôle en cliquant dessus.
+  </div>
+  <div class="comp-list" id="comp-list"></div>
+  <button class="add-comp-btn" onclick="addComp()">+ Ajouter une compétence</button>
+</div>
+
+<!-- GRAPHIQUE -->
+<div class="chart-section">
+  <p class="chart-title">Vue d'ensemble — niveaux actuels</p>
+  <div class="chart-bars" id="chart-bars"></div>
+</div>
+
+<p class="footer">Kreads × Roads — Hub Manager</p>
+
+<script>
+const sColors = { 1: '#E53E3E', 2: '#D69E2E', 3: '#3182CE', 4: '#38A169' };
+const sLabels = { 1: 'S1 — Diriger', 2: 'S2 — Entraîner', 3: 'S3 — Épauler', 4: 'S4 — Déléguer' };
+const sDescs = {
+  1: "Niveau S1 — Style : Diriger. Tu montres, tu expliques, tu décomposes les étapes. Tu contrôles de près et tu rassures. L'objectif est de construire les bases sans décourager.",
+  2: "Niveau S2 — Style : Entraîner. Tu continues d'expliquer le comment ET tu maintiens la motivation. C'est la phase la plus délicate — la personne doute. Sois présent et encourage activement.",
+  3: "Niveau S3 — Style : Épauler. La compétence est là, pas la confiance. Tu écoutes, tu valides, tu laisses de la latitude. Tu soutiens plus que tu n'instruis.",
+  4: "Niveau S4 — Style : Déléguer. Tu confies, tu fais confiance, tu restes disponible mais tu n'interfères pas. Trop de contrôle ici serait contre-productif."
+};
+
+let compCount = 0;
+
+function addComp(name) {
+  const id = compCount++;
+  const compName = name || "Nouvelle compétence";
+  const list = document.getElementById('comp-list');
+
+  const row = document.createElement('div');
+  row.className = 'comp-row';
+  row.id = 'comp-' + id;
+  row.innerHTML = `
+    <div class="comp-header">
+      <input class="comp-name-input" type="text" value="${compName}" oninput="updateChart()" placeholder="Nom de la compétence">
+      <span class="comp-badge" id="badge-${id}" style="background:${sColors[1]}">S1</span>
+    </div>
+    <div class="comp-ends">
+      <span class="comp-end">S1 — Débutant</span>
+      <span class="comp-end">S4 — Expert</span>
+    </div>
+    <input type="range" min="1" max="4" value="1" step="1" id="slider-${id}" oninput="updateComp(${id})">
+    <div class="comp-desc" id="desc-${id}">${sDescs[1]}</div>
+  `;
+  list.appendChild(row);
+  updateChart();
+}
+
+function updateComp(id) {
+  const val = parseInt(document.getElementById('slider-' + id).value);
+  document.getElementById('badge-' + id).textContent = 'S' + val;
+  document.getElementById('badge-' + id).style.background = sColors[val];
+  document.getElementById('desc-' + id).textContent = sDescs[val];
+  document.getElementById('desc-' + id).style.borderLeftColor = sColors[val];
+  updateChart();
+}
+
+function updateChart() {
+  const bars = document.getElementById('chart-bars');
+  bars.innerHTML = '';
+  const rows = document.querySelectorAll('.comp-row');
+  rows.forEach((row, i) => {
+    const nameInput = row.querySelector('.comp-name-input');
+    const slider = row.querySelector('input[type=range]');
+    if (!nameInput || !slider) return;
+    const name = nameInput.value || 'Compétence';
+    const val = parseInt(slider.value);
+    const pct = (val / 4) * 100;
+
+    const chartRow = document.createElement('div');
+    chartRow.className = 'chart-row';
+    chartRow.innerHTML = `
+      <span class="chart-label" title="${name}">${name}</span>
+      <div class="chart-bar-wrap">
+        <div class="chart-bar" style="width:${pct}%; background:${sColors[val]}">
+          <span>S${val}</span>
+        </div>
+      </div>
+      <span class="chart-s-label" style="color:${sColors[val]}">${['','Diriger','Entraîner','Épauler','Déléguer'][val]}</span>
+    `;
+    bars.appendChild(chartRow);
+  });
+}
+
+
+</script>
+</body>
+</html>
