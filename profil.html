@@ -11,10 +11,10 @@
   --bg: #F7F6F3; --surface: #FFFFFF;
   --border: #E8E6E1; --border-strong: #C8C4BC;
   --text-primary: #1A1916; --text-secondary: #6B6860; --text-hint: #AAA69E;
-  --blue: #2B6CB0; --blue-bg: #EBF4FF; --blue-border: #90CDF4;
-  --red: #C53030; --red-bg: #FFF5F5; --red-border: #FEB2B2;
-  --green: #276749; --green-bg: #F0FFF4; --green-border: #9AE6B4;
-  --yellow: #975A16; --yellow-bg: #FFFFF0; --yellow-border: #ECC94B;
+  --blue: #2B6CB0; --blue-bg: #EBF4FF; --blue-light: #90CDF4;
+  --red: #C53030; --red-bg: #FFF5F5; --red-light: #FEB2B2;
+  --green: #276749; --green-bg: #F0FFF4; --green-light: #9AE6B4;
+  --yellow: #975A16; --yellow-bg: #FFFFF0; --yellow-light: #ECC94B;
   --radius: 12px; --radius-sm: 7px;
 }
 body {
@@ -23,7 +23,7 @@ body {
   color: var(--text-primary);
   min-height: 100vh;
   padding: 32px 24px 60px;
-  max-width: 560px;
+  max-width: 600px;
   margin: 0 auto;
 }
 .kreads-tag {
@@ -40,22 +40,7 @@ body {
 }
 h1 { font-size: 21px; font-weight: 600; line-height: 1.25; margin-bottom: 4px; }
 .subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
-.name-input {
-  width: 100%;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-primary);
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  padding: 10px 13px;
-  outline: none;
-  margin-bottom: 12px;
-  transition: border-color 0.15s;
-}
-.name-input:focus { border-color: #94A3B8; }
-.name-input::placeholder { color: var(--text-hint); font-weight: 400; }
+
 .section {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -69,9 +54,63 @@ h1 { font-size: 21px; font-weight: 600; line-height: 1.25; margin-bottom: 4px; }
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-hint);
-  margin-bottom: 16px;
+  margin-bottom: 4px;
 }
-.axis-title { font-size: 13px; font-weight: 500; margin-bottom: 10px; }
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.section-explainer {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+}
+.section-explainer strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.examples-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.example-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+.example-box-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-hint);
+  margin-bottom: 6px;
+}
+.example-box ul {
+  list-style: none;
+  padding: 0;
+}
+.example-box ul li {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  padding: 2px 0 2px 12px;
+  position: relative;
+}
+.example-box ul li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--text-hint);
+}
 .axis-ends { display: flex; justify-content: space-between; margin-bottom: 5px; }
 .axis-end { font-size: 11px; color: var(--text-hint); font-family: 'DM Mono', monospace; }
 input[type=range] {
@@ -100,43 +139,57 @@ input[type=range]::-webkit-slider-thumb {
   background: var(--bg);
   border-radius: var(--radius-sm);
   border-left: 2.5px solid var(--border-strong);
-  margin-bottom: 12px;
 }
-.adapt-label {
-  display: block;
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--text-hint);
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  margin-bottom: 5px;
-}
-textarea {
-  width: 100%;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  color: var(--text-primary);
-  background: var(--surface);
+
+/* SUGGESTION */
+.suggestion-box {
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 9px 11px;
-  resize: vertical;
-  min-height: 52px;
-  outline: none;
-  line-height: 1.5;
-  transition: border-color 0.15s;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 10px;
+  display: none;
 }
-textarea:focus { border-color: var(--border-strong); }
-textarea::placeholder { color: var(--text-hint); }
-.insights-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.insights-sub {
-  font-size: 10px; font-weight: 500;
-  color: var(--text-secondary);
+.suggestion-box.visible { display: block; }
+.suggestion-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
+  color: var(--text-hint);
+  margin-bottom: 10px;
 }
-.color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.suggestion-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.suggestion-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+.suggestion-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 1px;
+}
+.suggestion-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+.suggestion-confirm {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
 .color-btn {
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
@@ -149,7 +202,7 @@ textarea::placeholder { color: var(--text-hint); }
   font-family: 'DM Sans', sans-serif;
 }
 .color-btn:hover { border-color: var(--border-strong); }
-.color-dot { width: 20px; height: 20px; border-radius: 50%; }
+.color-dot-sm { width: 18px; height: 18px; border-radius: 50%; }
 .color-btn span { font-size: 11px; font-weight: 500; color: var(--text-secondary); }
 .dot-bleu { background: #3182CE; }
 .dot-rouge { background: #E53E3E; }
@@ -163,40 +216,69 @@ textarea::placeholder { color: var(--text-hint); }
 .btn-vert.active span { color: var(--green); }
 .btn-jaune.active { border-color: var(--yellow); background: var(--yellow-bg); }
 .btn-jaune.active span { color: var(--yellow); }
-.mgmt-hint {
-  margin-top: 14px;
-  padding: 11px 13px;
-  border-radius: var(--radius-sm);
-  border-left: 2.5px solid var(--border-strong);
-  background: var(--bg);
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.65;
-  display: none;
+
+/* SYNTHÈSE */
+.synthesis { display: none; margin-bottom: 10px; }
+.synthesis.visible { display: block; }
+.synth-header {
+  background: var(--text-primary);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 18px 20px 14px;
 }
-.mgmt-hint.visible { display: block; }
-.mgmt-hint strong {
-  display: block;
-  font-size: 10px; font-weight: 500;
-  color: var(--text-primary);
+.synth-header-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 5px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 6px;
 }
-.comms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.comms-box { border-radius: var(--radius-sm); padding: 11px 12px; }
-.comms-ok { background: var(--green-bg); border: 1px solid var(--green-border); }
-.comms-nok { background: var(--red-bg); border: 1px solid var(--red-border); }
-.comms-tag { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
-.comms-ok .comms-tag { color: var(--green); }
-.comms-nok .comms-tag { color: var(--red); }
-.tag-textarea {
-  width: 100%; font-family: 'DM Sans', sans-serif;
-  font-size: 12px; color: var(--text-primary);
-  background: transparent; border: none;
-  resize: none; min-height: 52px; outline: none; line-height: 1.55;
+.synth-title { font-size: 15px; font-weight: 600; color: #FFFFFF; margin-bottom: 10px; }
+.synth-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag {
+  font-size: 11px; font-weight: 500;
+  padding: 3px 9px; border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.15);
 }
-.tag-textarea::placeholder { color: var(--text-hint); }
+.synth-blocks {
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  overflow: hidden;
+}
+.synth-block {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.synth-block:last-child { border-bottom: none; }
+.synth-block-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.label-feedback { color: #2B6CB0; }
+.label-motivation { color: #276749; }
+.label-alertes { color: #C53030; }
+.label-delegation { color: #6B46C1; }
+.label-conflit { color: #975A16; }
+.synth-block ul { list-style: none; padding: 0; }
+.synth-block ul li {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding: 3px 0 3px 14px;
+  position: relative;
+}
+.synth-block ul li::before {
+  content: '—';
+  position: absolute; left: 0;
+  color: var(--text-hint); font-size: 11px;
+}
 .footer {
   margin-top: 28px; text-align: center;
   font-family: 'DM Mono', monospace;
@@ -208,78 +290,139 @@ textarea::placeholder { color: var(--text-hint); }
 
 <span class="kreads-tag">Hub Manager · Kreads</span>
 <h1>Profil collaborateur</h1>
-<p class="subtitle">À remplir lors du premier 1:1 approfondi. Revoir si changement notable.</p>
-
-<input class="name-input" type="text" placeholder="Prénom du collaborateur…">
+<p class="subtitle">Réponds aux 2 questions pour obtenir une suggestion de profil Insights, puis affine si besoin.</p>
 
 <!-- 01 ÉNERGIE -->
 <div class="section">
-  <p class="section-label">01 — Énergie · Introversion / Extraversion</p>
-  <p class="axis-title">Où se ressource-t-il ?</p>
+  <p class="section-label">01 — Énergie</p>
+  <p class="section-title">Introverti ou extraverti ?</p>
+  <div class="section-explainer">
+    <strong>Ce n'est pas une question de timidité.</strong> C'est une question de source d'énergie : est-ce que cette personne se ressource dans la solitude et la concentration, ou dans le contact avec les autres ?<br><br>
+    Observe comment elle se comporte après une longue journée chargée, ou après une réunion intense.
+  </div>
+  <div class="examples-row">
+    <div class="example-box">
+      <p class="example-box-label">Signes d'introversion</p>
+      <ul>
+        <li>Préfère les échanges en one-to-one</li>
+        <li>Réfléchit avant de parler</li>
+        <li>A besoin de temps seul pour recharger</li>
+        <li>Prépare ses interventions à l'avance</li>
+        <li>Discret en réunion de groupe</li>
+      </ul>
+    </div>
+    <div class="example-box">
+      <p class="example-box-label">Signes d'extraversion</p>
+      <ul>
+        <li>S'anime dans les échanges collectifs</li>
+        <li>Pense en parlant — verbalise pour structurer</li>
+        <li>A besoin de contact pour rester motivé</li>
+        <li>Prend la parole facilement en réunion</li>
+        <li>Le silence prolongé le pèse</li>
+      </ul>
+    </div>
+  </div>
   <div class="axis-ends">
     <span class="axis-end">Introverti</span>
     <span class="axis-end">Extraverti</span>
   </div>
-  <input type="range" min="1" max="10" value="5" id="ie-slider" oninput="updateAxis('ie')">
-  <div class="axis-desc" id="ie-desc">Positionnez le curseur pour voir les implications.</div>
-  <span class="adapt-label">Ce que j'adapte concrètement</span>
-  <textarea placeholder="Ex : lui envoyer l'ordre du jour avant les réunions, laisser du silence sans le combler…"></textarea>
+  <input type="range" min="1" max="10" value="5" id="ie-slider" oninput="updateAxis('ie'); updateSuggestion()">
+  <div class="axis-desc" id="ie-desc"></div>
 </div>
 
 <!-- 02 DÉCISION -->
 <div class="section">
-  <p class="section-label">02 — Décision · Thinking / Feeling</p>
-  <p class="axis-title">Comment prend-il ses décisions ?</p>
+  <p class="section-label">02 — Décision</p>
+  <p class="section-title">Thinking ou Feeling ?</p>
+  <div class="section-explainer">
+    <strong>Ce n'est pas une question d'intelligence émotionnelle.</strong> C'est une question de ce qui guide ses décisions : est-ce que cette personne décide principalement à partir des faits et de la logique, ou à partir de l'impact sur les personnes et les relations ?<br><br>
+    Observe comment elle réagit face à un changement ou à un désaccord.
+  </div>
+  <div class="examples-row">
+    <div class="example-box">
+      <p class="example-box-label">Signes de Thinking</p>
+      <ul>
+        <li>Analyse avant d'agir — cherche la logique</li>
+        <li>À l'aise dans la confrontation directe</li>
+        <li>Préfère les faits aux ressentis</li>
+        <li>Peut sembler froid ou détaché</li>
+        <li>Respecte davantage si on le challenge</li>
+      </ul>
+    </div>
+    <div class="example-box">
+      <p class="example-box-label">Signes de Feeling</p>
+      <ul>
+        <li>Pense à l'impact sur les personnes d'abord</li>
+        <li>Cherche le consensus et l'harmonie</li>
+        <li>Inconfort face aux conflits directs</li>
+        <li>Très attentif aux signaux relationnels</li>
+        <li>Prend les feedbacks très à cœur</li>
+      </ul>
+    </div>
+  </div>
   <div class="axis-ends">
     <span class="axis-end">Thinking</span>
     <span class="axis-end">Feeling</span>
   </div>
-  <input type="range" min="1" max="10" value="5" id="tf-slider" oninput="updateAxis('tf')">
-  <div class="axis-desc" id="tf-desc">Positionnez le curseur pour voir les implications.</div>
-  <span class="adapt-label">Ce que j'adapte concrètement</span>
-  <textarea placeholder="Ex : commencer par reconnaître la personne avant d'attaquer le sujet du feedback…"></textarea>
+  <input type="range" min="1" max="10" value="5" id="tf-slider" oninput="updateAxis('tf'); updateSuggestion()">
+  <div class="axis-desc" id="tf-desc"></div>
 </div>
 
-<!-- 03 INSIGHTS -->
-<div class="section">
-  <p class="section-label">03 — Couleur Insights Discovery</p>
-  <div class="insights-cols">
+<!-- SUGGESTION COULEUR -->
+<div class="suggestion-box" id="suggestion-box">
+  <p class="suggestion-label">Profil suggéré</p>
+  <div class="suggestion-header">
+    <div class="suggestion-dot" id="sugg-dot"></div>
     <div>
-      <p class="insights-sub">Dominante</p>
-      <div class="color-grid">
-        <button class="color-btn btn-bleu" id="d-bleu" onclick="setColor('dom','bleu')"><div class="color-dot dot-bleu"></div><span>Bleu</span></button>
-        <button class="color-btn btn-rouge" id="d-rouge" onclick="setColor('dom','rouge')"><div class="color-dot dot-rouge"></div><span>Rouge</span></button>
-        <button class="color-btn btn-vert" id="d-vert" onclick="setColor('dom','vert')"><div class="color-dot dot-vert"></div><span>Vert</span></button>
-        <button class="color-btn btn-jaune" id="d-jaune" onclick="setColor('dom','jaune')"><div class="color-dot dot-jaune"></div><span>Jaune</span></button>
-      </div>
-    </div>
-    <div>
-      <p class="insights-sub">Secondaire</p>
-      <div class="color-grid">
-        <button class="color-btn btn-bleu" id="s-bleu" onclick="setColor('sec','bleu')"><div class="color-dot dot-bleu"></div><span>Bleu</span></button>
-        <button class="color-btn btn-rouge" id="s-rouge" onclick="setColor('sec','rouge')"><div class="color-dot dot-rouge"></div><span>Rouge</span></button>
-        <button class="color-btn btn-vert" id="s-vert" onclick="setColor('sec','vert')"><div class="color-dot dot-vert"></div><span>Vert</span></button>
-        <button class="color-btn btn-jaune" id="s-jaune" onclick="setColor('sec','jaune')"><div class="color-dot dot-jaune"></div><span>Jaune</span></button>
-      </div>
+      <p class="suggestion-name" id="sugg-name"></p>
+      <p class="suggestion-sub" id="sugg-sub"></p>
     </div>
   </div>
-  <div class="mgmt-hint" id="mgmt-hint">
-    <strong>Ce que ça change dans mon management</strong>
-    <span id="mgmt-text"></span>
+  <p class="suggestion-text" id="sugg-text"></p>
+  <p class="suggestion-confirm">Ce profil te semble juste ? Confirme ou ajuste ci-dessous.</p>
+  <div class="color-grid">
+    <button class="color-btn btn-bleu" id="c-bleu" onclick="setColor('bleu')">
+      <div class="color-dot-sm dot-bleu"></div><span>Bleu</span>
+    </button>
+    <button class="color-btn btn-rouge" id="c-rouge" onclick="setColor('rouge')">
+      <div class="color-dot-sm dot-rouge"></div><span>Rouge</span>
+    </button>
+    <button class="color-btn btn-vert" id="c-vert" onclick="setColor('vert')">
+      <div class="color-dot-sm dot-vert"></div><span>Vert</span>
+    </button>
+    <button class="color-btn btn-jaune" id="c-jaune" onclick="setColor('jaune')">
+      <div class="color-dot-sm dot-jaune"></div><span>Jaune</span>
+    </button>
   </div>
 </div>
 
-<!-- 04 COMMUNICATION -->
-<div class="section">
-  <p class="section-label">04 — Règles de communication</p>
-  <div class="comms-grid">
-    <div class="comms-box comms-ok">
-      <p class="comms-tag">Ce qui fonctionne</p>
-      <textarea class="tag-textarea" placeholder="Ex : feedback direct, données concrètes, challenge des idées…"></textarea>
+<!-- SYNTHÈSE -->
+<div class="synthesis" id="synthesis">
+  <div class="synth-header">
+    <p class="synth-header-label">Synthèse managériale</p>
+    <p class="synth-title" id="synth-title"></p>
+    <div class="synth-tags" id="synth-tags"></div>
+  </div>
+  <div class="synth-blocks">
+    <div class="synth-block">
+      <p class="synth-block-label label-feedback">💬 Feedback constructif</p>
+      <ul id="synth-feedback"></ul>
     </div>
-    <div class="comms-box comms-nok">
-      <p class="comms-tag">Ce qu'il faut éviter</p>
-      <textarea class="tag-textarea" placeholder="Ex : feedback en public, flou sur les attentes, changements improvisés…"></textarea>
+    <div class="synth-block">
+      <p class="synth-block-label label-motivation">🔋 Motivation</p>
+      <ul id="synth-motivation"></ul>
+    </div>
+    <div class="synth-block">
+      <p class="synth-block-label label-alertes">⚠️ Signaux d'alerte</p>
+      <ul id="synth-alertes"></ul>
+    </div>
+    <div class="synth-block">
+      <p class="synth-block-label label-delegation">🎯 Délégation</p>
+      <ul id="synth-delegation"></ul>
+    </div>
+    <div class="synth-block">
+      <p class="synth-block-label label-conflit">🔥 Gestion de conflit</p>
+      <ul id="synth-conflit"></ul>
     </div>
   </div>
 </div>
@@ -288,51 +431,277 @@ textarea::placeholder { color: var(--text-hint); }
 
 <script>
 const ieTexts = {
-  1: "Très introverti — Envoie les sujets à l'avance, laisse du silence, propose de répondre par écrit plutôt qu'en réunion.",
-  2: "Très introverti — Privilégie les échanges en one-to-one, évite de le mettre sur le spot sans préparation.",
+  1: "Très introverti — Envoie les sujets à l'avance, laisse du silence, propose de répondre par écrit.",
+  2: "Très introverti — Privilégie les échanges en one-to-one. Évite de le mettre sur le spot.",
   3: "Plutôt introverti — Respecte ses temps de traitement, ne comble pas les silences.",
-  4: "Légèrement introverti — Envoyer les sujets clés avant un échange important suffit à le mettre à l'aise.",
-  5: "Équilibré — S'adapte selon le contexte. Observe comment il se comporte selon la situation.",
-  6: "Légèrement extraverti — Aime verbaliser pour structurer. Laisse-lui de l'espace pour penser à voix haute.",
-  7: "Plutôt extraverti — Se ressource dans l'interaction. Profite des échanges informels pour prendre le pouls.",
-  8: "Extraverti — Lui donner du temps de parole est productif, pas du temps perdu. Besoin de contact régulier.",
-  9: "Très extraverti — Interactions fréquentes indispensables. Le silence prolongé peut être perçu négativement.",
-  10: "Très extraverti — Pense en parlant. La verbalisation structure ses idées — lui couper la parole bloque sa réflexion."
+  4: "Légèrement introverti — Envoyer les sujets clés avant un échange important suffit.",
+  5: "Légèrement introverti — Observer comment il se comporte selon les situations.",
+  6: "Légèrement extraverti — Aime verbaliser pour structurer. Lui laisser de l'espace pour penser à voix haute.",
+  7: "Plutôt extraverti — Se ressource dans l'interaction. Profite des échanges informels.",
+  8: "Extraverti — Lui donner du temps de parole est productif, pas du temps perdu.",
+  9: "Très extraverti — Interactions fréquentes indispensables. Le silence prolongé est mal vécu.",
+  10: "Très extraverti — Pense en parlant. La verbalisation structure ses idées."
 };
 const tfTexts = {
-  1: "Très Thinking — Va droit au but, sois factuel. Il te respecte davantage si tu challenges ses idées que si tu les valides.",
-  2: "Très Thinking — Données solides et cohérence logique avant tout. Pas besoin de préambule relationnel.",
-  3: "Plutôt Thinking — Direct et structuré. Confort dans la confrontation directe — ne le prends pas pour de l'agressivité.",
-  4: "Légèrement Thinking — Quelques faits bien choisis suffisent. Apprécie qu'on aille à l'essentiel.",
-  5: "Équilibré — Sensible aux faits ET à la relation. Observe ce qui prime selon la situation.",
+  1: "Très Thinking — Va droit au but, sois factuel. Il préfère être challengé plutôt que validé.",
+  2: "Très Thinking — Données solides et cohérence logique avant tout.",
+  3: "Plutôt Thinking — Direct et structuré. Confort dans la confrontation directe.",
+  4: "Légèrement Thinking — Quelques faits bien choisis suffisent.",
+  5: "Légèrement Thinking — Sensible aux faits, mais attentif au contexte relationnel.",
   6: "Légèrement Feeling — Commence par reconnaître la personne avant d'attaquer le sujet.",
-  7: "Plutôt Feeling — Un feedback juste sera mal reçu s'il est livré sans considération pour la relation.",
-  8: "Feeling — L'inconfort relationnel bloque tout le reste. Pose toujours la relation en premier.",
-  9: "Très Feeling — Très sensible à l'impact émotionnel. Commence toujours par la relation, jamais par le sujet.",
-  10: "Très Feeling — La confiance est le prérequis absolu. Impossible d'avancer sur le fond sans qu'elle soit établie."
+  7: "Plutôt Feeling — Un feedback juste sera mal reçu sans considération pour la relation.",
+  8: "Feeling — L'inconfort relationnel bloque tout le reste.",
+  9: "Très Feeling — Commence toujours par la relation, jamais par le sujet.",
+  10: "Très Feeling — La confiance est le prérequis absolu."
 };
-const colorMgmt = {
-  bleu: "Profil Bleu (Thinking + Introverti) — Donne-lui les informations à l'avance et laisse-lui le temps d'analyser. Respecte les process, évite les décisions improvisées. Besoin de données solides et de logique irréfutable.",
-  rouge: "Profil Rouge (Thinking + Extraverti) — Va droit au but et donne-lui des défis avec de la liberté d'action. Besoin de résultats rapides et de reconnaissance. Communique mieux quand on le challenge directement.",
-  vert: "Profil Vert (Feeling + Introverti) — Prends le temps de la relation avant d'aborder le sujet. Explique l'impact sur l'équipe avant tout changement. Stabilité et cohérence sont des besoins fondamentaux.",
-  jaune: "Profil Jaune (Feeling + Extraverti) — Sois enthousiaste et visuel, valorise ses idées. Besoin de créativité, de contact humain et d'ambiance positive. Communique mieux dans un échange énergique et enthousiasmant."
+
+const colorDots = { bleu: '#3182CE', rouge: '#E53E3E', vert: '#38A169', jaune: '#D69E2E' };
+
+const suggestions = {
+  bleu:  { name: "Bleu", sub: "Thinking + Introverti", text: "Les deux curseurs pointent vers un profil analytique et discret. Ce profil a besoin de données, de clarté et de temps pour traiter l'information. Il performe bien dans la rigueur et la précision, et peut être mal à l'aise avec le flou ou les décisions improvisées." },
+  rouge: { name: "Rouge", sub: "Thinking + Extraverti", text: "Les deux curseurs pointent vers un profil direct et orienté résultats. Ce profil aime les défis, va droit au but et a besoin d'autonomie pour performer. Il peut sembler brusque mais c'est sa façon de fonctionner — la franchise est sa langue natale." },
+  vert:  { name: "Vert", sub: "Feeling + Introverti", text: "Les deux curseurs pointent vers un profil stable et loyal. Ce profil fonctionne à la confiance et à l'harmonie. Il peut encaisser beaucoup sans se plaindre — ce qui en fait quelqu'un de fiable, mais aussi quelqu'un dont il faut surveiller activement les signaux faibles." },
+  jaune: { name: "Jaune", sub: "Feeling + Extraverti", text: "Les deux curseurs pointent vers un profil enthousiaste et créatif. Ce profil a besoin d'énergie, de reconnaissance et de variété pour performer. Il est excellent pour embarquer les autres, mais peut se disperser sans cadre clair." }
 };
+
+const profiles = {
+  bleu: {
+    label: "Bleu — Analytique & Introverti",
+    tags: ["Analytique", "Précis", "Process", "Logique", "Discret"],
+    feedback: [
+      "Préparer le feedback à l'avance et lui envoyer les points clés avant la réunion",
+      "S'appuyer sur des faits précis et des données — pas d'impressions ou de ressentis",
+      "Faire le feedback en one-to-one, jamais en public",
+      "Lui laisser le temps de traiter avant de répondre — ne pas combler le silence",
+      "Formuler une attente claire et mesurable en sortie de conversation"
+    ],
+    motivation: [
+      "Lui donner de la clarté sur ses objectifs et les critères de succès",
+      "Valoriser la rigueur et la précision de son travail explicitement",
+      "Lui confier des sujets d'analyse ou de structuration — c'est là qu'il excelle",
+      "Respecter ses process et ne pas changer les règles sans explication logique",
+      "Lui donner de l'autonomie sur son organisation — ne pas micro-manager"
+    ],
+    alertes: [
+      "Il devient silencieux ou distant — signe qu'il est en désaccord ou démotivé",
+      "Il ralentit ou sur-perfectionne — signe de surcharge ou de manque de clarté",
+      "Il pose beaucoup de questions de détail — signe qu'il manque de cadre",
+      "Il s'isole davantage que d'habitude — signe de mal-être à investiguer",
+      "Il remet en question les process sans proposer d'alternative — signe de frustration"
+    ],
+    delegation: [
+      "Lui expliquer le pourquoi et les enjeux avant de déléguer — il a besoin du contexte complet",
+      "Définir des critères de succès précis et mesurables dès le départ",
+      "Ne pas lui imposer ta méthode — lui laisser construire la sienne",
+      "Prévoir des points de contrôle réguliers mais espacés — pas de micro-management",
+      "Lui faire confiance sur l'exécution une fois le cadre posé"
+    ],
+    conflit: [
+      "Ne jamais l'affronter en public — toujours en privé",
+      "S'appuyer sur des faits et des données, jamais sur des émotions",
+      "Lui laisser le temps de préparer sa réponse — ne pas attendre une réaction immédiate",
+      "Poser le problème de façon logique et structurée",
+      "Chercher une solution rationnelle ensemble — il sera réceptif si la logique tient"
+    ]
+  },
+  rouge: {
+    label: "Rouge — Direct & Compétitif",
+    tags: ["Direct", "Résultats", "Autonomie", "Compétitif", "Rapide"],
+    feedback: [
+      "Aller droit au but — pas de préambule long, il s'impatiente",
+      "Challenger ses idées plutôt que de les valider par politesse — il respecte la franchise",
+      "S'appuyer sur des faits concrets et des résultats mesurables",
+      "Faire le feedback rapidement après l'événement — pas des semaines après",
+      "Terminer sur une action claire qu'il peut prendre immédiatement"
+    ],
+    motivation: [
+      "Lui donner des défis ambitieux avec de la liberté d'action",
+      "Reconnaître explicitement ses résultats et ses wins — il a besoin de visibilité",
+      "Lui confier des responsabilités avec de l'impact réel",
+      "Lui permettre de prendre des décisions rapidement sans trop de validation",
+      "Lui proposer de la compétition saine — comparatifs, objectifs dépassés, records"
+    ],
+    alertes: [
+      "Il s'impatiente ou court-circuite les process — signe qu'il se sent freiné",
+      "Il devient autoritaire avec l'équipe — signe de frustration non exprimée",
+      "Il prend des décisions seul sans en référer — signe de manque de confiance envers toi",
+      "Il se désinvestit d'un projet — signe qu'il n'y voit plus de challenge",
+      "Il multiplie les initiatives sans les finir — signe de dispersion à recadrer"
+    ],
+    delegation: [
+      "Lui donner l'objectif final et le laisser définir comment y arriver",
+      "Cadrer le résultat attendu et le délai — pas la méthode",
+      "Lui donner suffisamment d'autonomie sinon il contournera les contraintes",
+      "Faire des points courts et orientés résultats — pas de réunions longues",
+      "Reconnaître publiquement quand il livre bien — c'est son carburant"
+    ],
+    conflit: [
+      "Être direct et aller au fond du sujet — il respecte la franchise",
+      "Ne pas tergiverser ou tourner autour du pot — il le vit comme de la faiblesse",
+      "Rester factuel et ne pas prendre ses réactions à chaud personnellement",
+      "Lui laisser s'exprimer jusqu'au bout avant de répondre",
+      "Trouver un terrain d'entente orienté action — pas de discussion théorique"
+    ]
+  },
+  vert: {
+    label: "Vert — Stable & Loyal",
+    tags: ["Loyal", "Stable", "Harmonie", "Patient", "Discret"],
+    feedback: [
+      "Commencer par établir un climat de confiance avant d'aborder le fond",
+      "Poser le feedback doucement — il est sensible au ton autant qu'au contenu",
+      "Toujours en privé, jamais devant l'équipe — c'est non négociable",
+      "Lui laisser le temps de digérer — ne pas attendre une réaction immédiate",
+      "Équilibrer systématiquement avec des points positifs sincères et précis"
+    ],
+    motivation: [
+      "Lui garantir de la stabilité et de la cohérence dans les décisions",
+      "Valoriser sa fiabilité et sa loyauté explicitement — il a tendance à s'effacer",
+      "L'inclure dans les décisions qui concernent son périmètre",
+      "Lui confier des responsabilités de suivi et de coordination — il excelle là-dedans",
+      "Préserver un bon climat d'équipe — c'est son premier levier de motivation"
+    ],
+    alertes: [
+      "Il dit oui à tout sans se plaindre — signe de surcharge silencieuse",
+      "Il évite certaines personnes ou sujets — signe de tension non exprimée",
+      "Sa qualité de travail baisse sans raison apparente — signe de démotivation profonde",
+      "Il devient très discret dans les réunions — signe qu'il ne se sent pas en sécurité",
+      "Il parle de fatigue ou de manque de sens — signal à prendre très au sérieux"
+    ],
+    delegation: [
+      "Lui expliquer l'impact de la mission sur l'équipe — c'est ce qui le motive",
+      "Lui donner un cadre clair et stable — il est mal à l'aise dans le flou",
+      "Ne pas changer les objectifs en cours de route sans explication",
+      "Prévoir des points réguliers pour qu'il se sente soutenu, pas abandonné",
+      "Reconnaître son travail en privé — la reconnaissance publique peut le mettre mal à l'aise"
+    ],
+    conflit: [
+      "Ne jamais l'affronter brutalement — il se ferme immédiatement",
+      "Prendre le temps de la relation avant d'aborder le désaccord",
+      "Utiliser un langage doux et bienveillant — les mots ont beaucoup de poids pour lui",
+      "Lui laisser exprimer ses inquiétudes sans les minimiser",
+      "Chercher une solution qui préserve l'harmonie de l'équipe — c'est sa priorité"
+    ]
+  },
+  jaune: {
+    label: "Jaune — Enthousiaste & Créatif",
+    tags: ["Enthousiaste", "Créatif", "Social", "Optimiste", "Expressif"],
+    feedback: [
+      "Commencer par valoriser ce qui fonctionne avant d'aborder ce qui doit changer",
+      "Envelopper le feedback constructif dans un échange positif — pas de séance formelle froide",
+      "Être précis sur les comportements à changer — il a tendance à généraliser",
+      "S'assurer qu'il a bien compris et n'est pas juste en train d'acquiescer pour clore",
+      "Finir sur une note positive et un plan d'action concret qu'il peut s'approprier"
+    ],
+    motivation: [
+      "Lui donner de la variété et des projets stimulants — la routine le démotive vite",
+      "Reconnaître ses idées et ses initiatives publiquement — il adore la visibilité",
+      "Lui laisser de la créativité dans la façon d'atteindre les objectifs",
+      "Maintenir une bonne ambiance d'équipe — c'est son premier baromètre",
+      "Lui confier des sujets de communication, de présentation ou de brainstorming"
+    ],
+    alertes: [
+      "Il commence beaucoup de choses sans en finir — signe de dispersion à recadrer",
+      "Il devient moins enthousiaste ou plus discret — signe fort de démotivation",
+      "Il cherche beaucoup de validation externe — signe d'un manque de confiance en lui",
+      "Il prend les feedbacks constructifs très à cœur — surveiller l'impact émotionnel",
+      "Il parle de s'ennuyer ou que c'est répétitif — intervenir rapidement"
+    ],
+    delegation: [
+      "Lui vendre la mission avec enthousiasme — il a besoin de se sentir inspiré",
+      "Lui laisser de la liberté créative dans la façon de faire",
+      "Faire des points réguliers et dynamiques — pas de longs rapports écrits",
+      "Valoriser ses initiatives en cours de route, pas seulement à la fin",
+      "Cadrer les livrables précisément sinon il risque de partir dans tous les sens"
+    ],
+    conflit: [
+      "Ne pas l'affronter froidement — il prend les conflits très personnellement",
+      "Commencer par dépersonnaliser le sujet — parler du comportement, pas de lui",
+      "Rester chaleureux dans le ton même si le fond est difficile",
+      "Lui laisser exprimer ses émotions sans les couper",
+      "Terminer sur une note positive et constructive — il a besoin de repartir avec de l'énergie"
+    ]
+  }
+};
+
+let selectedColor = null;
+
+function getSuggestedColor(ie, tf) {
+  const isExtraverti = ie >= 6;
+  const isFeeling = tf >= 6;
+  if (!isExtraverti && !isFeeling) return 'bleu';
+  if (isExtraverti && !isFeeling) return 'rouge';
+  if (!isExtraverti && isFeeling) return 'vert';
+  return 'jaune';
+}
 
 function updateAxis(type) {
   const val = parseInt(document.getElementById(type + '-slider').value);
   document.getElementById(type + '-desc').textContent = (type === 'ie' ? ieTexts : tfTexts)[val];
 }
 
-function setColor(type, color) {
-  const prefix = type === 'dom' ? 'd' : 's';
+function updateSuggestion() {
+  const ie = parseInt(document.getElementById('ie-slider').value);
+  const tf = parseInt(document.getElementById('tf-slider').value);
+  const suggested = getSuggestedColor(ie, tf);
+  const s = suggestions[suggested];
+
+  document.getElementById('sugg-dot').style.background = colorDots[suggested];
+  document.getElementById('sugg-name').textContent = 'Profil ' + s.name;
+  document.getElementById('sugg-sub').textContent = s.sub;
+  document.getElementById('sugg-text').textContent = s.text;
+
+  document.getElementById('suggestion-box').classList.add('visible');
+
   ['bleu','rouge','vert','jaune'].forEach(c => {
-    document.getElementById(prefix + '-' + c).className = 'color-btn btn-' + c;
+    document.getElementById('c-' + c).className = 'color-btn btn-' + c;
   });
-  document.getElementById(prefix + '-' + color).className = 'color-btn btn-' + color + ' active';
-  if (type === 'dom') {
-    document.getElementById('mgmt-text').textContent = colorMgmt[color];
-    document.getElementById('mgmt-hint').classList.add('visible');
-  }
+  document.getElementById('c-' + suggested).className = 'color-btn btn-' + suggested + ' active';
+  selectedColor = suggested;
+  renderSynthesis();
+}
+
+function setColor(color) {
+  ['bleu','rouge','vert','jaune'].forEach(c => {
+    document.getElementById('c-' + c).className = 'color-btn btn-' + c;
+  });
+  document.getElementById('c-' + color).className = 'color-btn btn-' + color + ' active';
+  selectedColor = color;
+  renderSynthesis();
+}
+
+function renderList(id, items) {
+  const ul = document.getElementById(id);
+  ul.innerHTML = '';
+  items.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    ul.appendChild(li);
+  });
+}
+
+function renderSynthesis() {
+  if (!selectedColor) return;
+  const ie = parseInt(document.getElementById('ie-slider').value);
+  const tf = parseInt(document.getElementById('tf-slider').value);
+  const p = profiles[selectedColor];
+  const ieLabel = ie <= 3 ? 'Très introverti' : ie <= 5 ? 'Légèrement introverti' : ie <= 7 ? 'Extraverti' : 'Très extraverti';
+  const tfLabel = tf <= 3 ? 'Très Thinking' : tf <= 5 ? 'Légèrement Thinking' : tf <= 7 ? 'Feeling' : 'Très Feeling';
+
+  document.getElementById('synth-title').textContent = p.label;
+  const tagsEl = document.getElementById('synth-tags');
+  tagsEl.innerHTML = '';
+  [ieLabel, tfLabel, ...p.tags].forEach(t => {
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.textContent = t;
+    tagsEl.appendChild(tag);
+  });
+  renderList('synth-feedback', p.feedback);
+  renderList('synth-motivation', p.motivation);
+  renderList('synth-alertes', p.alertes);
+  renderList('synth-delegation', p.delegation);
+  renderList('synth-conflit', p.conflit);
+  document.getElementById('synthesis').classList.add('visible');
 }
 
 updateAxis('ie');
