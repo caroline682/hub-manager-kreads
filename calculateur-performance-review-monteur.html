@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance Review · Monteur · Kreads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #F2EDE4; --cream-dark: #E8E2D8; --black: #111111; --white: #ffffff;
+  --cyan: #00E5CC; --border: #D5CEBC; --muted: #888070;
+  --note1: #D93B2B; --note2: #D97A1A; --note3: #B8960A; --note4: #2A9455; --note5: #00C4AE;
+}
+body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--black); min-height: 100vh; }
+nav { background: var(--cream); border-bottom: 1.5px solid var(--black); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.nav-logo { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 900; color: var(--black); }
+.nav-logo .ads { color: var(--cyan); }
+.nav-badge { background: var(--black); color: var(--cyan); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; }
+.hero { padding: 44px 40px 32px; border-bottom: 1.5px solid var(--black); }
+.hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.hero h1 { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(48px, 7vw, 80px); font-weight: 900; line-height: 0.9; text-transform: uppercase; letter-spacing: -1px; }
+.hero h1 .accent { color: var(--cyan); }
+.identity { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1.5px solid var(--black); }
+.id-field { padding: 20px 32px; border-right: 1.5px solid var(--black); }
+.id-field:last-child { border-right: none; }
+.id-label { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.id-field input, .id-field select { width: 100%; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: var(--black); background: transparent; border: none; outline: none; cursor: pointer; -webkit-appearance: none; appearance: none; padding: 0; }
+.id-field input::placeholder { color: var(--muted); }
+.content { display: grid; grid-template-columns: 1fr 300px; }
+.dimensions-col { border-right: 1.5px solid var(--black); }
+.col-header { height: 52px; padding: 0 32px; background: var(--black); color: var(--white); font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.result-col .col-header { padding: 0 24px; }
+.plancher-pill { background: var(--cyan); color: var(--black); font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; padding: 4px 9px; white-space: nowrap; flex-shrink: 0; display: none; line-height: 1; }
+.dim-card { border-bottom: 1.5px solid var(--black); padding: 22px 32px; transition: background 0.12s; }
+.dim-card:hover { background: var(--cream-dark); }
+.dim-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 3px; gap: 10px; }
+.dim-name { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; text-transform: uppercase; line-height: 1; }
+.dim-desc { font-size: 11.5px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+.note-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+.note-btn { background: var(--white); border: 1.5px solid var(--border); cursor: pointer; padding: 9px 4px 7px; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: all 0.1s; }
+.note-btn:hover { border-color: var(--black); background: var(--cream); }
+.note-btn .num { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 900; line-height: 1; color: var(--black); }
+.note-btn .lbl { font-size: 9px; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; color: var(--muted); }
+.note-btn.active { border-color: transparent; }
+.note-btn.active .num { color: var(--white); }
+.note-btn.active .lbl { color: rgba(255,255,255,0.7); }
+.note-btn.active[data-note="1"] { background: var(--note1); }
+.note-btn.active[data-note="2"] { background: var(--note2); }
+.note-btn.active[data-note="3"] { background: var(--note3); }
+.note-btn.active[data-note="4"] { background: var(--note4); }
+.note-btn.active[data-note="5"] { background: var(--note5); }
+.note-btn.active[data-note="5"] .num, .note-btn.active[data-note="5"] .lbl { color: var(--black); }
+.result-col { display: flex; flex-direction: column; }
+.profile-card { padding: 22px 24px; border-bottom: 1.5px solid var(--black); }
+.profile-name { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 900; text-transform: uppercase; line-height: 1; }
+.profile-meta { font-size: 11px; color: var(--muted); margin-top: 6px; font-weight: 500; line-height: 1.5; }
+.dim-summary { padding: 18px 24px; border-bottom: 1.5px solid var(--black); display: flex; flex-direction: column; gap: 9px; }
+.dim-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.dim-row-name { font-size: 11px; color: var(--muted); font-weight: 500; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dim-row-dots { display: flex; gap: 3px; flex-shrink: 0; }
+.dot { width: 8px; height: 8px; background: var(--cream-dark); border: 1px solid var(--border); border-radius: 50%; transition: all 0.18s; }
+.dot.f1 { background: var(--note1); border-color: var(--note1); } .dot.f2 { background: var(--note2); border-color: var(--note2); } .dot.f3 { background: var(--note3); border-color: var(--note3); } .dot.f4 { background: var(--note4); border-color: var(--note4); } .dot.f5 { background: var(--note5); border-color: var(--note5); }
+.dim-row-note { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 900; min-width: 16px; text-align: right; color: var(--muted); transition: color 0.2s; flex-shrink: 0; }
+.dim-row-note.c1 { color: var(--note1); } .dim-row-note.c2 { color: var(--note2); } .dim-row-note.c3 { color: var(--note3); } .dim-row-note.c4 { color: var(--note4); } .dim-row-note.c5 { color: var(--note5); }
+.score-block { padding: 22px 24px; flex: 1; display: flex; flex-direction: column; gap: 18px; }
+.score-lbl { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.score-avg { font-family: 'Barlow Condensed', sans-serif; font-size: 50px; font-weight: 900; line-height: 1; color: var(--black); transition: color 0.25s; }
+.score-formula { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.score-div { border: none; border-top: 1.5px solid var(--black); }
+.note-global { font-family: 'Barlow Condensed', sans-serif; font-size: 76px; font-weight: 900; line-height: 1; color: var(--black); transition: color 0.25s; }
+.note-global-text { font-size: 11.5px; color: var(--muted); line-height: 1.5; margin-top: 7px; }
+.pip-alert { background: var(--black); color: var(--white); padding: 11px 16px; font-size: 11px; font-weight: 500; line-height: 1.5; display: none; border-top: 2px solid var(--note1); margin-top: 4px; }
+.pip-alert strong { color: var(--note1); }
+.legend { padding: 18px 24px; border-top: 1.5px solid var(--black); }
+.legend-title { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.legend-items { display: flex; flex-direction: column; gap: 5px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+.legend-chip { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 900; flex-shrink: 0; }
+@media (max-width: 680px) {
+  .content { grid-template-columns: 1fr; } .identity { grid-template-columns: 1fr; }
+  .id-field { border-right: none; border-bottom: 1.5px solid var(--black); }
+  .id-field:last-child { border-bottom: none; }
+  nav, .hero { padding-left: 20px; padding-right: 20px; }
+  .dim-card { padding: 18px 20px; } .result-col { border-right: none; border-top: 1.5px solid var(--black); }
+}
+</style>
+</head>
+<body>
+<nav>
+  <span class="nav-logo">KR<span class="ads">ADS</span></span>
+  <span class="nav-badge">Performance Review · Monteur</span>
+</nav>
+<div class="hero">
+  <div class="hero-eyebrow">Kreads · Outil interne · Grille Monteur</div>
+  <h1>MONTEUR<br><span class="accent">CALCULATEUR</span></h1>
+</div>
+<div class="identity">
+  <div class="id-field">
+    <div class="id-label">Prénom</div>
+    <input type="text" id="prenom" placeholder="Prénom" oninput="updateProfile()">
+  </div>
+  <div class="id-field">
+    <div class="id-label">Contrat</div>
+    <select id="contrat" onchange="updateContrat()">
+      <option value="">— Contrat</option>
+      <option value="tl">Team Lead</option>
+      <option value="cdi">CDI</option>
+      <option value="alternant">Alternant</option>
+    </select>
+  </div>
+  <div class="id-field">
+    <div class="id-label">Trimestre</div>
+    <select id="trimestre" onchange="updateProfile()">
+      <option value="Q1 2025">Q1 2025</option>
+      <option value="Q2 2025">Q2 2025</option>
+      <option value="Q3 2025">Q3 2025</option>
+      <option value="Q4 2025">Q4 2025</option>
+      <option value="Q1 2026" selected>Q1 2026</option>
+      <option value="Q2 2026">Q2 2026</option>
+      <option value="Q3 2026">Q3 2026</option>
+      <option value="Q4 2026">Q4 2026</option>
+    </select>
+  </div>
+</div>
+<div class="content">
+  <div class="dimensions-col">
+    <div class="col-header">
+      <span>Évaluation par dimension</span>
+      <span class="plancher-pill" id="plancher-pill"></span>
+    </div>
+    <div class="dim-card">
+      <div class="dim-top"><div class="dim-name">Volume de concepts</div></div>
+      <div class="dim-desc" id="dim1-desc">Sélectionnez un contrat pour voir le plancher applicable.</div>
+      <div class="note-row" data-dim="1">
+        <button class="note-btn" data-note="1"><span class="num">1</span><span class="lbl">Sous-perf</span></button>
+        <button class="note-btn" data-note="2"><span class="num">2</span><span class="lbl">Attendu</span></button>
+        <button class="note-btn" data-note="3"><span class="num">3</span><span class="lbl">Dépasse</span></button>
+        <button class="note-btn" data-note="4"><span class="num">4</span><span class="lbl">Exception.</span></button>
+        <button class="note-btn" data-note="5"><span class="num">5</span><span class="lbl">Rarissime</span></button>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-top"><div class="dim-name">Qualité des livrables</div></div>
+      <div class="dim-desc">Taux d'allers-retours, insatisfaction client liée aux livrables, batchs repris par un freelance, intégration des retours.</div>
+      <div class="note-row" data-dim="2">
+        <button class="note-btn" data-note="1"><span class="num">1</span><span class="lbl">Sous-perf</span></button>
+        <button class="note-btn" data-note="2"><span class="num">2</span><span class="lbl">Attendu</span></button>
+        <button class="note-btn" data-note="3"><span class="num">3</span><span class="lbl">Dépasse</span></button>
+        <button class="note-btn" data-note="4"><span class="num">4</span><span class="lbl">Exception.</span></button>
+        <button class="note-btn" data-note="5"><span class="num">5</span><span class="lbl">Rarissime</span></button>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-top"><div class="dim-name">Contribution transverse</div></div>
+      <div class="dim-desc">Respect des process, fiabilité des outils, suggestions d'amélioration sur les templates de montage et la production.</div>
+      <div class="note-row" data-dim="3">
+        <button class="note-btn" data-note="1"><span class="num">1</span><span class="lbl">Sous-perf</span></button>
+        <button class="note-btn" data-note="2"><span class="num">2</span><span class="lbl">Attendu</span></button>
+        <button class="note-btn" data-note="3"><span class="num">3</span><span class="lbl">Dépasse</span></button>
+        <button class="note-btn" data-note="4"><span class="num">4</span><span class="lbl">Exception.</span></button>
+        <button class="note-btn" data-note="5"><span class="num">5</span><span class="lbl">Rarissime</span></button>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-top"><div class="dim-name">Impact collectif</div></div>
+      <div class="dim-desc">
+        <strong style="color:var(--black);font-weight:600;">Note 3 —</strong> Contribue au collectif au-delà de son scope : remonte des problèmes avec une solution, aide un pair en difficulté, propose des améliorations process.<br>
+        <strong style="color:var(--black);font-weight:600;">Note 4 —</strong> Prend en charge la montée en compétences d'un junior de façon structurée. Résout un dysfonctionnement récurrent concrètement (template, checklist, process documenté). Son absence se ressent sur la qualité collective.<br>
+        <strong style="color:var(--black);font-weight:600;">Note 5 —</strong> Référence créative ou technique à l'échelle de Kreads. A créé un avant/après identifiable dans la façon de travailler du pôle. Contribution reconnue par les autres pôles.
+      </div>
+      <div class="note-row" data-dim="4">
+        <button class="note-btn" data-note="1"><span class="num">1</span><span class="lbl">Sous-perf</span></button>
+        <button class="note-btn" data-note="2"><span class="num">2</span><span class="lbl">Attendu</span></button>
+        <button class="note-btn" data-note="3"><span class="num">3</span><span class="lbl">Dépasse</span></button>
+        <button class="note-btn" data-note="4"><span class="num">4</span><span class="lbl">Exception.</span></button>
+        <button class="note-btn" data-note="5"><span class="num">5</span><span class="lbl">Rarissime</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="result-col">
+    <div class="col-header">Résultat</div>
+    <div class="profile-card">
+      <div class="profile-name" id="profile-name">—</div>
+      <div class="profile-meta" id="profile-meta">Monteur · —</div>
+    </div>
+    <div class="dim-summary">
+      <div class="dim-row">
+        <span class="dim-row-name">Vol. concepts</span>
+        <div class="dim-row-dots" id="dots-1"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <span class="dim-row-note" id="dnote-1">—</span>
+      </div>
+      <div class="dim-row">
+        <span class="dim-row-name">Qualité livrables</span>
+        <div class="dim-row-dots" id="dots-2"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <span class="dim-row-note" id="dnote-2">—</span>
+      </div>
+      <div class="dim-row">
+        <span class="dim-row-name">Contribution</span>
+        <div class="dim-row-dots" id="dots-3"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <span class="dim-row-note" id="dnote-3">—</span>
+      </div>
+      <div class="dim-row">
+        <span class="dim-row-name">Impact collectif</span>
+        <div class="dim-row-dots" id="dots-4"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <span class="dim-row-note" id="dnote-4">—</span>
+      </div>
+    </div>
+    <div class="score-block">
+      <div>
+        <div class="score-lbl">Moyenne</div>
+        <div class="score-avg" id="avg-display">—</div>
+        <div class="score-formula" id="avg-formula">— / 4 dimensions</div>
+      </div>
+      <hr class="score-div">
+      <div>
+        <div class="score-lbl">Note globale</div>
+        <div class="note-global" id="note-global">—</div>
+        <div class="note-global-text" id="note-text">Évaluez les 4 dimensions pour obtenir la note.</div>
+        <div class="pip-alert" id="pip-alert"><strong>Plan d'action requis.</strong> Moyenne ≤ 1,75 → Note globale 1. Suivi renforcé obligatoire.</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-title">Référentiel</div>
+      <div class="legend-items">
+        <div class="legend-item"><div class="legend-chip" style="background:#D93B2B;color:white;">1</div> Sous-performance claire</div>
+        <div class="legend-item"><div class="legend-chip" style="background:#D97A1A;color:white;">2</div> Niveau attendu — bonne note</div>
+        <div class="legend-item"><div class="legend-chip" style="background:#B8960A;color:white;">3</div> Dépassement répété</div>
+        <div class="legend-item"><div class="legend-chip" style="background:#2A9455;color:white;">4</div> Impact exceptionnel</div>
+        <div class="legend-item"><div class="legend-chip" style="background:#00C4AE;color:#111;">5</div> Cas rarissime</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const notes = { 1: null, 2: null, 3: null, 4: null };
+const noteColors = { 1:'var(--note1)', 2:'var(--note2)', 3:'var(--note3)', 4:'var(--note4)', 5:'var(--note5)' };
+const noteTexts = {
+  1: "Sous-performance claire. Plan d'action formalisé requis.",
+  2: "Niveau attendu — le travail est bien fait. Déjà valorisé financièrement.",
+  3: "Dépassement répété des attentes. Cumul de plusieurs achievements.",
+  4: "Impact exceptionnel et structurant. Création de valeur durable.",
+  5: "Cas rarissime. Validation collégiale requise avant attribution."
+};
+const CONTRATS = {
+  tl:       { label: 'Team Lead', pill: 'Plancher TL : 50/mois',         desc: 'Team Lead — Note 2 : 50–57/mois · Note 3 : 58+ (+8) · Note 4 : 66+ (+16) · Note 5 : 80+ (+30)' },
+  cdi:      { label: 'CDI',       pill: 'Plancher CDI : 100/mois',        desc: 'CDI — Note 2 : 100–107/mois · Note 3 : 108+ (+8) · Note 4 : 116+ (+16) · Note 5 : 130+ (+30)' },
+  alternant:{ label: 'Alternant', pill: 'Plancher Alternant : 60/mois',   desc: 'Alternant — Note 2 : 60–67/mois · Note 3 : 68+ (+8) · Note 4 : 76+ (+16) · Note 5 : 90+ (+30)' }
+};
+document.querySelectorAll('.note-row').forEach(row => {
+  row.querySelectorAll('.note-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const dim = parseInt(row.dataset.dim);
+      const note = parseInt(btn.dataset.note);
+      notes[dim] = note;
+      row.querySelectorAll('.note-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateDimSummary(dim, note);
+      updateResult();
+    });
+  });
+});
+function updateDimSummary(dim, note) {
+  document.querySelectorAll('#dots-' + dim + ' .dot').forEach((d, i) => { d.className = 'dot' + (i < note ? ' f' + note : ''); });
+  const el = document.getElementById('dnote-' + dim);
+  el.textContent = note; el.className = 'dim-row-note c' + note;
+}
+function updateResult() {
+  const vals = Object.values(notes).filter(v => v !== null);
+  const filled = vals.length;
+  const avgEl = document.getElementById('avg-display');
+  const formulaEl = document.getElementById('avg-formula');
+  const noteEl = document.getElementById('note-global');
+  const textEl = document.getElementById('note-text');
+  const alertEl = document.getElementById('pip-alert');
+  if (filled === 0) {
+    avgEl.textContent = '—'; avgEl.style.color = 'var(--black)';
+    formulaEl.textContent = '— / 4 dimensions';
+    noteEl.textContent = '—'; noteEl.style.color = 'var(--black)';
+    textEl.textContent = 'Évaluez les 4 dimensions pour obtenir la note.';
+    alertEl.style.display = 'none'; return;
+  }
+  const sum = vals.reduce((a, b) => a + b, 0);
+  if (filled < 4) {
+    avgEl.textContent = '~' + (sum / filled).toFixed(2).replace('.', ',');
+    avgEl.style.color = 'var(--muted)';
+    formulaEl.textContent = filled + '/4 dimensions renseignées';
+    noteEl.textContent = '—'; noteEl.style.color = 'var(--black)';
+    textEl.textContent = 'Complétez les 4 dimensions.';
+    alertEl.style.display = 'none'; return;
+  }
+  const avg = sum / 4;
+  const g = avg <= 1.75 ? 1 : avg <= 2.49 ? 2 : avg <= 3.49 ? 3 : avg <= 4.49 ? 4 : 5;
+  const col = noteColors[g];
+  avgEl.textContent = avg.toFixed(2).replace('.', ','); avgEl.style.color = col;
+  formulaEl.textContent = '(' + vals.join(' + ') + ') ÷ 4';
+  noteEl.textContent = g; noteEl.style.color = col;
+  textEl.textContent = noteTexts[g];
+  alertEl.style.display = g === 1 ? 'block' : 'none';
+}
+function updateContrat() {
+  const v = document.getElementById('contrat').value;
+  const pill = document.getElementById('plancher-pill');
+  const desc = document.getElementById('dim1-desc');
+  if (v && CONTRATS[v]) {
+    pill.style.display = 'inline'; pill.textContent = CONTRATS[v].pill;
+    desc.textContent = CONTRATS[v].desc;
+  } else {
+    pill.style.display = 'none';
+    desc.textContent = 'Sélectionnez un contrat pour voir le plancher applicable.';
+  }
+  updateProfile();
+}
+function updateProfile() {
+  const prenom = document.getElementById('prenom').value.trim();
+  const v = document.getElementById('contrat').value;
+  const trimestre = document.getElementById('trimestre').value;
+  const contratLabel = v && CONTRATS[v] ? CONTRATS[v].label : '—';
+  document.getElementById('profile-name').textContent = prenom || '—';
+  document.getElementById('profile-meta').textContent = 'Monteur · ' + contratLabel + ' · ' + trimestre;
+}
+</script>
+</body>
+</html>
